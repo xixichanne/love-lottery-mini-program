@@ -3,6 +3,10 @@
     <div class="lucky-wheel">
       <div class="wheel-main">
         <img class="wheel" src="../assets/img/wheel.png"/>
+        <div class="title">
+          <p>陈怡</p>
+          <p>原谅我吧！</p>
+        </div>
         <div class="wheel-pointer-box">
           <div class="wheel-pointer" @click="rotate_handle()"
                :style="{transform:rotateAngle_pointer,transition:rotate_transition_pointer}"></div>
@@ -225,7 +229,14 @@ export default {
     position: relative;
     height: 600px;
   }
+  .title{
+    position:absolute;
+    z-index:3;
+    text-align:center;
+    top:42px;
+    font-size:20px;
 
+  }
   .wheel-bg {
     width: 375px;
     height: 375px;

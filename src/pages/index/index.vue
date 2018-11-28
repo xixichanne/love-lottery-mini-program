@@ -1,19 +1,21 @@
 <template>
   <div id="app">
+    <div class="mark" v-if="show"></div>
     <van-dialog
       use-slot
       async-close
+      title="输入女友的名字"
+      zIndex="999"
       :show="show"
-      confirm-button-open-type="getUserInfo"
-      :bind:close="onClose"
+      @close="onClose"
+      confirm-button-text="拜托拜托!"
     >
-      <van-field
-        :value="username"
-        label="用户名"
-        placeholder="请输入用户名"
-      />
+      <div class="dialog-content">
+        <span>原谅我吧，&nbsp;</span>
+        <input v-model="username" placeholder="在这里输入女友姓名" class="text-input"/>
+      </div>
     </van-dialog>
-    <lucky-wheel></lucky-wheel>
+    <lucky-wheel :username="username"></lucky-wheel>
   </div>
 </template>
 
@@ -30,19 +32,11 @@ export default {
       }
     },
     methods: {
-      onClose (event) {
-        if (event.detail === 'confirm') {
-          // 异步关闭弹窗
-          setTimeout(() => {
-            this.setData({
-              show: false
-            })
-          }, 1000)
-        } else {
-          this.setData({
-            show: false
-          })
-        }
+      onClose () {
+        this.show = false
+      },
+      getData () {
+        this.username = '';
       }
     },
     components: {
@@ -72,5 +66,21 @@ export default {
 
   div {
     box-sizing: border-box
+  }
+  .mark{
+    height: 100vh;
+    position: absolute;
+    min-width: 375px;
+    background: #fff;
+    z-index:998
+  }
+  .dialog-content{
+    width: 229px;
+    margin: 20px auto;
+  }
+  .text-input{
+    display: inline-block;
+    width: 143px;
+    vertical-align: -7px;
   }
 </style>

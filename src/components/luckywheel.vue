@@ -21,7 +21,11 @@
           </div>
         </div>
       </div>
-      <van-button round type="primary" class="start-button" @click="rotate_handle()">给我一次机会</van-button>
+      <div class="button-box shake-slow shake-constant" @click="rotate_handle()">
+        <img :src="button_bg" class="start-button"/>
+        <span>给我一次机会吧!</span>
+      </div>
+
     </div>
     <div class="toast" v-show="toast_control">
       <div class="toast-container">
@@ -40,6 +44,7 @@
 </template>
 <script>
 import prize from '../assets/js/prize.js'
+
 export default {
   data () {
     return {
@@ -54,7 +59,7 @@ export default {
       rotate_transition_pointer: 'transform 12s ease-in-out', // 初始化指针过度属性控制
       click_flag: true, // 是否可以旋转抽奖
       index: 0,
-      prize_list: []
+      prize_list: [],
     }
   },
   props: ['username'],
@@ -63,10 +68,13 @@ export default {
   },
   computed: {
     toast_title () {
-      return '恭喜您，获得' + this.prize_list[this.index].name
+      return '恭喜您，获得' + this.prize_list[this.index + 1].name
     },
     toast_pictrue () {
       return require('../assets/img/congratulation.png')
+    },
+    button_bg () {
+      return require('../assets/img/button.png')
     }
   },
   methods: {
@@ -119,6 +127,8 @@ export default {
 }
 </script>
 <style scoped>
+  @import '../assets/css/shake.css'; /* 引入shake样式 */
+
   .container {
     width: 100%;
   }
@@ -126,7 +136,7 @@ export default {
   .lucky-wheel {
     width: 100%;
     height: 100vh;
-    background: rgb(252, 207, 133);
+    background: rgb(255, 239, 199);
     padding-top: 25px;
   }
   .wheel{
@@ -182,8 +192,6 @@ export default {
   .wheel-pointer {
     width: 85px;
     height: 85px;
-    background: url("../assets/img/draw_btn.png") no-repeat center top;
-    background-size: 100%;
     transform-origin: center 60%;
   }
 
@@ -294,48 +302,21 @@ export default {
     writing-mode:lr-tb
   }
 
-  .main {
-    position: relative;
-    width: 100%;
-    min-height: 228px;
-    background: rgb(243, 109, 86);
-    padding-bottom: 27px;
-  }
-
-  .main-bg {
-    width: 100%;
-    height: 105px;
-    position: absolute;
-    top: -55px;
-    left: 0;
-    background: url("../assets/img/luck_bg.png") no-repeat center top;
-    background-size: 100%;
-  }
-
-  .bg-p {
-    width: 100%;
-    height: 47.2px;
-    background: rgb(252, 207, 133);
-  }
-
-  .content {
-    position: absolute;
-    top: 2.8px;
-    left: 0;
-    background: rgb(243, 109, 86);
-    width: 100%;
-    height: 83px;
-    font-size: 18px;
-    color: #ffeb39;
-    padding-left: 108px;
-  }
-
   .content div {
     text-align: left;
   }
-  .start-button{
-    width: 120px;
+  .button-box{
+    width: 200px;
     margin: 10px auto;
+  }
+  .button-box span{
+    position:relative;
+    top:-45px;
+    left:43px;
+  }
+  .start-button{
+    width: 200px;
+    height: 45px;
   }
 
   .toast-mask {

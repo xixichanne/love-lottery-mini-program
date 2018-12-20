@@ -35,8 +35,14 @@
           {{toast_title}}
         </div>
         <div class="toast-btn">
-          <div class="toast-cancel" @click="close_toast">关闭</div>
+          <button open-type='share' @click="share_link">小姐姐不够喜欢耶,换一个?</button>
+          <button open-type='share' @click="share_link">小哥哥负担不起呜呜呜,换一个?</button>
+          <button open-type='share' @click="share_link">程序媛小姐姐这个主意真好,打赏一个!</button>
+          <!--<button open-type='share'>分享</button>-->
         </div>
+        <!--<div class="toast-btn">-->
+          <!--<div class="toast-cancel" @click="close_toast">关闭</div>-->
+        <!--</div>-->
       </div>
     </div>
     <div class="toast-mask" v-show="toast_control"></div>
@@ -68,7 +74,15 @@ export default {
   },
   computed: {
     toast_title () {
-      return '恭喜您，获得' + this.prize_list[this.index + 1].name
+      if (this.prize_list[this.index + 1].type == 'activity'){
+        return '小哥哥快去' + this.prize_list[this.index + 1].name+this.username+'吧!'
+      }else if (this.prize_list[this.index + 1].type == 'bag'){
+        return '哇，快去给'+this.username+'买个' + this.prize_list[this.index + 1].name+',就能求得她原谅了呢!'
+      }else if (this.prize_list[this.index + 1].type == 'skinCare'){
+        return '哇，快去给'+this.username+'买个' + this.prize_list[this.index + 1].name+',就能求得她原谅了呢!'
+      }else if (this.prize_list[this.index + 1].type == 'cosmetic'){
+        return '哇，快去给'+this.username+'买个' + this.prize_list[this.index + 1].name+',就能求得她原谅了呢!'
+      }
     },
     toast_pictrue () {
       return require('../assets/img/congratulation.png')
@@ -122,6 +136,9 @@ export default {
     // 关闭弹窗
     close_toast () {
       this.toast_control = false
+    },
+    share_link(){
+
     }
   }
 }
@@ -162,7 +179,7 @@ export default {
     height: 375px;
     color: #fff;
     font-weight: 500;
-    background: url("http://i2.bvimg.com/670180/b1823871ff8ecf0d.png") no-repeat center top;
+    background: url("https://s1.ax1x.com/2018/12/20/FrQcG9.png") no-repeat center top;
     background-size: 100%;
     top:7px;
     position:relative;
@@ -335,7 +352,7 @@ export default {
     left: 50%;
     z-index: 20000;
     transform: translate(-50%, -50%);
-    width: 247px;
+    width: 310px;
     background: #fff;
     border-radius: 5px;
     padding: 5px;
@@ -352,8 +369,6 @@ export default {
   .toast-picture {
     position: absolute;
     top: -104px;
-    left: -24px;
-    width: 300px;
     height: 137px;
   }
 
@@ -366,20 +381,13 @@ export default {
   }
 
   .toast-title {
-    padding: 45px 0;
-    font-size: 18px;
-    color: #fc7939;
+    padding: 40px;
+    font-size: 17px;
+    color: #000000;
     text-align: center;
   }
 
-  .toast-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 15px;
-  }
-
-  .toast-btn div {
+  .toast-btn button {
     background-image: -moz-linear-gradient(
       -18deg,
       rgb(242, 148, 85) 0%,
@@ -400,12 +408,14 @@ export default {
       rgb(252, 124, 88) 99%
     );
     box-shadow: 0px 4px 0px 0px rgba(174, 34, 5, 0.7);
-    width: 75px;
+    width: 245px;
     height: 30px;
+    margin: 7px auto;
     border-radius: 30px;
     text-align: center;
     line-height: 30px;
     color: #fff;
+    font-size:13px;
   }
 
   .close {

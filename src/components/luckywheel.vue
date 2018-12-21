@@ -30,21 +30,25 @@
     <div class="toast" v-show="toast_control">
       <div class="toast-container">
         <img :src="toast_pictrue" class="toast-picture">
-        <div class="close" @click="close_toast()"></div>
+        <!--<div class="close" @click="close_toast()"></div>-->
         <div class="toast-title">
           {{toast_title}}
         </div>
         <div class="toast-btn">
-          <button open-type='share' @click="share_link">小姐姐不够喜欢耶,换一个?</button>
-          <button open-type='share' @click="share_link">小哥哥负担不起呜呜呜,换一个?</button>
-          <button open-type='share' @click="share_link">程序媛小姐姐这个主意真好,打赏一个!</button>
-          <!--<button open-type='share'>分享</button>-->
+          <button open-type='share'>小姐姐不够喜欢耶,换一个?</button>
+          <button open-type='share'>小哥哥负担不起呜呜呜,换一个?</button>
+          <button @click="open_QRCode">程序媛小姐姐这个主意真好,打赏一个!</button>
         </div>
-        <!--<div class="toast-btn">-->
-          <!--<div class="toast-cancel" @click="close_toast">关闭</div>-->
-        <!--</div>-->
       </div>
     </div>
+    <!--<van-popup-->
+      <!--:show="qrcode_popup"-->
+      <!--@close="onClose"-->
+      <!--z-index="999"-->
+      <!--close-on-click-overlay="true"-->
+    <!--&gt;-->
+      <!--<img :src="qrcode" class="qrcode_pic" @tap="scanQrcode">-->
+    <!--</van-popup>-->
     <div class="toast-mask" v-show="toast_control"></div>
   </div>
 </template>
@@ -52,6 +56,7 @@
 import prize from '../assets/js/prize.js'
 
 export default {
+  name:'luckywheel',
   data () {
     return {
       easejoy_bean: 0, // 金豆
@@ -66,22 +71,37 @@ export default {
       click_flag: true, // 是否可以旋转抽奖
       index: 0,
       prize_list: [],
+      qrcode_popup: false
     }
   },
-  props: ['username'],
+  props: ['username','status'],
+  watch:{
+    status(val,old){
+      console.log("status"+val)
+      if(val==2){
+        this.toast_control=false;
+      }
+    }
+  },
+  onShow(){
+    console.log("onshow"+this.status)
+    if(this.status==2){
+      this.toast_control=false;
+    }
+  },
   created () {
     this.init_prize_list()
   },
   computed: {
     toast_title () {
-      if (this.prize_list[this.index + 1].type == 'activity'){
-        return '小哥哥快去' + this.prize_list[this.index + 1].name+this.username+'吧!'
-      }else if (this.prize_list[this.index + 1].type == 'bag'){
-        return '哇，快去给'+this.username+'买个' + this.prize_list[this.index + 1].name+',就能求得她原谅了呢!'
-      }else if (this.prize_list[this.index + 1].type == 'skinCare'){
-        return '哇，快去给'+this.username+'买个' + this.prize_list[this.index + 1].name+',就能求得她原谅了呢!'
-      }else if (this.prize_list[this.index + 1].type == 'cosmetic'){
-        return '哇，快去给'+this.username+'买个' + this.prize_list[this.index + 1].name+',就能求得她原谅了呢!'
+      if (this.prize_list[this.index + 1].type == 'activity') {
+        return '小哥哥快去' + this.prize_list[this.index + 1].name + this.username + '吧!'
+      } else if (this.prize_list[this.index + 1].type == 'bag') {
+        return '哇，快去给' + this.username + '买个' + this.prize_list[this.index + 1].name + ',就能求得她原谅了呢!'
+      } else if (this.prize_list[this.index + 1].type == 'skinCare') {
+        return '哇，快去给' + this.username + '买个' + this.prize_list[this.index + 1].name + ',就能求得她原谅了呢!'
+      } else if (this.prize_list[this.index + 1].type == 'cosmetic') {
+        return '哇，快去给' + this.username + '买个' + this.prize_list[this.index + 1].name + ',就能求得她原谅了呢!'
       }
     },
     toast_pictrue () {
@@ -89,6 +109,9 @@ export default {
     },
     button_bg () {
       return require('../assets/img/button.png')
+    },
+    qrcode () {
+      return require('../assets/img/qrcode.jpeg')
     }
   },
   methods: {
@@ -137,10 +160,14 @@ export default {
     close_toast () {
       this.toast_control = false
     },
-    share_link(){
-
-    }
-  }
+    open_QRCode () {
+      // this.qrcode_popup = true
+      wx.previewImage({
+        current: ['https://s1.ax1x.com/2018/12/21/Fsn6sK.jpg'], // 当前显示图片的http链接
+        urls: ['https://s1.ax1x.com/2018/12/21/Fsn6sK.jpg'] // 需要预览的图片http链接列表
+      })
+    },
+  },
 }
 </script>
 <style scoped>
@@ -156,9 +183,11 @@ export default {
     background: rgb(255, 239, 199);
     padding-top: 25px;
   }
-  .wheel{
+
+  .wheel {
     z-index: 3;
   }
+
   .wheel-main {
     display: flex;
     align-items: center;
@@ -166,14 +195,16 @@ export default {
     position: relative;
     height: 600px;
   }
-  .title{
-    position:absolute;
-    z-index:3;
-    text-align:center;
-    top:42px;
-    font-size:20px;
+
+  .title {
+    position: absolute;
+    z-index: 3;
+    text-align: center;
+    top: 42px;
+    font-size: 20px;
 
   }
+
   .wheel-bg {
     width: 375px;
     height: 375px;
@@ -181,8 +212,8 @@ export default {
     font-weight: 500;
     background: url("https://s1.ax1x.com/2018/12/20/FrQcG9.png") no-repeat center top;
     background-size: 100%;
-    top:7px;
-    position:relative;
+    top: 7px;
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -190,7 +221,8 @@ export default {
     transition: transform 3s ease;
     z-index: 2;
   }
-  .wheel{
+
+  .wheel {
     position: absolute;
     width: 100%;
     height: 575px;
@@ -278,6 +310,7 @@ export default {
     left: 140px;
     transform: rotate(210deg);
   }
+
   .prize-list .prize-item:nth-child(9) {
     top: 100px;
     left: 120px;
@@ -295,6 +328,7 @@ export default {
     left: 115px;
     transform: rotate(300deg);
   }
+
   .prize-list .prize-item:nth-child(12) {
     top: 5px;
     left: 140px;
@@ -316,22 +350,25 @@ export default {
     font-size: 12px;
     overflow: hidden;
     text-align: center;
-    writing-mode:lr-tb
+    writing-mode: lr-tb
   }
 
   .content div {
     text-align: left;
   }
-  .button-box{
+
+  .button-box {
     width: 200px;
     margin: 10px auto;
   }
-  .button-box span{
-    position:relative;
-    top:-45px;
-    left:43px;
+
+  .button-box span {
+    position: relative;
+    top: -45px;
+    left: 43px;
   }
-  .start-button{
+
+  .start-button {
     width: 200px;
     height: 45px;
   }
@@ -341,7 +378,7 @@ export default {
     top: 0;
     left: 0;
     background: rgba(0, 0, 0, 0.6);
-    z-index: 10000;
+    z-index: 200;
     width: 100%;
     height: 100%;
   }
@@ -350,7 +387,7 @@ export default {
     position: fixed;
     top: 50%;
     left: 50%;
-    z-index: 20000;
+    z-index: 300;
     transform: translate(-50%, -50%);
     width: 310px;
     background: #fff;
@@ -381,7 +418,7 @@ export default {
   }
 
   .toast-title {
-    padding: 40px;
+    padding: 30px 30px 10px 30px;
     font-size: 17px;
     color: #000000;
     text-align: center;
@@ -409,13 +446,13 @@ export default {
     );
     box-shadow: 0px 4px 0px 0px rgba(174, 34, 5, 0.7);
     width: 245px;
-    height: 30px;
-    margin: 7px auto;
+    height: 35px;
+    margin: 20px auto;
     border-radius: 30px;
     text-align: center;
     line-height: 30px;
     color: #fff;
-    font-size:13px;
+    font-size: 13px;
   }
 
   .close {
@@ -426,6 +463,11 @@ export default {
     height: 32px;
     background: url("../assets/img/close_store.png") no-repeat center top;
     background-size: 100%;
+  }
+
+  .qrcode_pic {
+    width: 380px;
+    height: 380px;
   }
 </style>
 

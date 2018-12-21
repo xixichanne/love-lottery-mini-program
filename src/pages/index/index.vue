@@ -15,34 +15,48 @@
         <input v-model="username" placeholder="在这里输入女友姓名" class="text-input"/>
       </div>
     </van-dialog>
-    <lucky-wheel :username="username"></lucky-wheel>
+    <LuckyWheel :username="username" :status="status"></LuckyWheel>
   </div>
 </template>
 
 <script>
-  import LuckyWheel from '../../components/luckywheel'
+import LuckyWheel from '../../components/luckywheel'
 
 export default {
-    name: 'app',
-    data () {
-      return {
-        show: true,
-        username: '',
-        password: ''
-      }
-    },
-    methods: {
-      onClose () {
-        this.show = false
-      },
-      getData () {
-        this.username = '';
-      }
-    },
-    components: {
-      LuckyWheel
+  name: 'app',
+  data () {
+    return {
+      show: true,
+      username: '',
+      password: '',
+      status:1 //1:正常进入；2:分享后返回
     }
+  },
+  methods: {
+    onClose () {
+      this.show = false
+    },
+    getData () {
+      this.username = ''
+    }
+  },
+  onShareAppMessage: function () {
+    return {
+      title: 'test',
+      path: '/pages/index/index',
+      success: function (res) {
+        // 转发成功之后的回调
+        if (res.errMsg == 'shareAppMessage:ok') {
+          // this.selectComponent('#wheel').close_toast()
+          this.status=2;
+        }
+      }
+    }
+  },
+  components: {
+    LuckyWheel
   }
+}
 </script>
 
 <style>
@@ -67,18 +81,21 @@ export default {
   div {
     box-sizing: border-box
   }
-  .mark{
+
+  .mark {
     height: 100vh;
     position: absolute;
     min-width: 375px;
     background: #fff;
-    z-index:998
+    z-index: 998
   }
-  .dialog-content{
+
+  .dialog-content {
     width: 229px;
     margin: 20px auto;
   }
-  .text-input{
+
+  .text-input {
     display: inline-block;
     width: 143px;
     vertical-align: -7px;

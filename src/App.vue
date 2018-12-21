@@ -1,5 +1,11 @@
 <script>
-export default {}
+export default {
+  methods:{
+  },
+  component:{
+
+  }
+}
 </script>
 
 <style>

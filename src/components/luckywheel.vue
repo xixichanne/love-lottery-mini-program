@@ -41,14 +41,6 @@
         </div>
       </div>
     </div>
-    <!--<van-popup-->
-      <!--:show="qrcode_popup"-->
-      <!--@close="onClose"-->
-      <!--z-index="999"-->
-      <!--close-on-click-overlay="true"-->
-    <!--&gt;-->
-      <!--<img :src="qrcode" class="qrcode_pic" @tap="scanQrcode">-->
-    <!--</van-popup>-->
     <div class="toast-mask" v-show="toast_control"></div>
   </div>
 </template>
@@ -56,10 +48,8 @@
 import prize from '../assets/js/prize.js'
 
 export default {
-  name:'luckywheel',
   data () {
     return {
-      easejoy_bean: 0, // 金豆
       lottery_ticket: 0, // 抽奖次数
       toast_control: false, // 抽奖结果弹出框控制器
       start_rotating_degree: 0, // 初始旋转角度
@@ -74,20 +64,10 @@ export default {
       qrcode_popup: false
     }
   },
-  props: ['username','status'],
-  watch:{
-    status(val,old){
-      console.log("status"+val)
-      if(val==2){
-        this.toast_control=false;
-      }
-    }
-  },
-  onShow(){
-    console.log("onshow"+this.status)
-    if(this.status==2){
-      this.toast_control=false;
-    }
+  props: ['username', 'status'],
+  onShow () {
+    this.toast_control = false
+    this.init_prize_list()
   },
   created () {
     this.init_prize_list()
@@ -116,42 +96,31 @@ export default {
   },
   methods: {
     // 此方法为处理奖品数据
-    init_prize_list (list) {
-      this.prize_list = prize.prizeList
+    init_prize_list () {
+      this.prize_list = prize.init()
     },
     rotate_handle () {
       this.rotating()
     },
     rotating () {
       if (!this.click_flag) return
-      var type = 0 // 默认为 0  转盘转动 1 箭头和转盘都转动(暂且遗留)
       var duringTime = 5 // 默认为1s
       var random = Math.floor(Math.random() * 11)
       this.index = random
       var resultAngle = [330, 300, 270, 240, 210, 180, 150, 120, 90, 60, 30, 0] // 最终会旋转到下标的位置所需要的度数
       var randCircle = 3 // 附加多转几圈，2-3
       this.click_flag = false // 旋转结束前，不允许再次触发
-      if (type === 0) {
-        // 转动盘子
-        var rotateAngle =
-          this.start_rotating_degree +
-          randCircle * 360 +
-          resultAngle[random] -
-          this.start_rotating_degree % 360
-        this.start_rotating_degree = rotateAngle
-        this.rotateAngle = 'rotate(' + rotateAngle + 'deg)'
-        // // //转动指针
-        // this.rotateAngle_pointer = "rotate("+this.start_rotating_degree_pointer + 360*randCircle+"deg)";
-        // this.start_rotating_degree_pointer =360*randCircle;
-        var that = this
-        // 旋转结束后，允许再次触发
-        setTimeout(function () {
-          that.click_flag = true
-          that.game_over()
-        }, duringTime * 1000 + 1500) // 延时，保证转盘转完
-      } else {
-        //
-      }
+      // 转动盘子
+      var rotateAngle = this.start_rotating_degree + randCircle * 360 + resultAngle[random] - this.start_rotating_degree % 360
+      this.start_rotating_degree = rotateAngle
+      this.rotateAngle = 'rotate(' + rotateAngle + 'deg)'
+      var that = this
+      // 旋转结束后，允许再次触发
+      setTimeout(function () {
+        that.click_flag = true
+        that.game_over()
+      }, duringTime * 1000 + 1500) // 延时，保证转盘转完
+
     },
     game_over () {
       this.toast_control = true
@@ -166,8 +135,8 @@ export default {
         current: ['https://s1.ax1x.com/2018/12/21/Fsn6sK.jpg'], // 当前显示图片的http链接
         urls: ['https://s1.ax1x.com/2018/12/21/Fsn6sK.jpg'] // 需要预览的图片http链接列表
       })
-    },
-  },
+    }
+  }
 }
 </script>
 <style scoped>
@@ -393,7 +362,6 @@ export default {
     background: #fff;
     border-radius: 5px;
     padding: 5px;
-    background-color: rgb(252, 244, 224);
   }
 
   .toast-container {
@@ -465,9 +433,5 @@ export default {
     background-size: 100%;
   }
 
-  .qrcode_pic {
-    width: 380px;
-    height: 380px;
-  }
 </style>
 

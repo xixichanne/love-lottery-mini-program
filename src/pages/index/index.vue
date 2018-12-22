@@ -15,7 +15,7 @@
         <input v-model="username" placeholder="在这里输入女友姓名" class="text-input"/>
       </div>
     </van-dialog>
-    <LuckyWheel :username="username" :status="status"></LuckyWheel>
+    <LuckyWheel :username="username" :status="status" v-if="!show"></LuckyWheel>
   </div>
 </template>
 
@@ -48,7 +48,9 @@ export default {
         // 转发成功之后的回调
         if (res.errMsg == 'shareAppMessage:ok') {
           // this.selectComponent('#wheel').close_toast()
+          this.status='';
           this.status=2;
+          console.log("success:"+this.status)
         }
       }
     }
@@ -98,6 +100,6 @@ export default {
   .text-input {
     display: inline-block;
     width: 143px;
-    vertical-align: -7px;
+    /*vertical-align: -7px;*/
   }
 </style>

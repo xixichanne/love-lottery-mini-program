@@ -113,8 +113,16 @@ const activityList = [
   },
   {
     type: 'activity',
-    name: '三天不许打游戏'
-  }
+    name: '一天不许打游戏'
+  },
+  {
+    type: 'activity',
+    name: 'Tony老师顶级服务'
+  },
+  {
+    type: 'activity',
+    name: '随叫随到服务'
+  },
 ]
 const skinCareList = [
   {

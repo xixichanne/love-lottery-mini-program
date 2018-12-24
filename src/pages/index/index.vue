@@ -42,7 +42,7 @@ export default {
   },
   onShareAppMessage: function () {
     return {
-      title: 'test',
+      title: '她又生气了？怎么办啊啊啊啊啊!',
       path: '/pages/index/index',
       success: function (res) {
         // 转发成功之后的回调

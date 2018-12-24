@@ -66,11 +66,16 @@ export default {
   },
   props: ['username', 'status'],
   onShow () {
+    console.log('onShow')
     this.toast_control = false
     this.init_prize_list()
   },
   created () {
+    console.log('created')
     this.init_prize_list()
+  },
+  mounted(){
+    console.log('mounted')
   },
   computed: {
     toast_title () {
@@ -130,7 +135,6 @@ export default {
       this.toast_control = false
     },
     open_QRCode () {
-      // this.qrcode_popup = true
       wx.previewImage({
         current: ['https://s1.ax1x.com/2018/12/21/Fsn6sK.jpg'], // 当前显示图片的http链接
         urls: ['https://s1.ax1x.com/2018/12/21/Fsn6sK.jpg'] // 需要预览的图片http链接列表
@@ -148,7 +152,7 @@ export default {
 
   .lucky-wheel {
     width: 100%;
-    height: 100vh;
+    height: 100%;
     background: rgb(255, 239, 199);
     padding-top: 25px;
   }
@@ -229,7 +233,8 @@ export default {
     top: 0px;
     left: 0;
     z-index: 2;
-    width: 23px;
+    width: 30px;
+    word-wrap:break-word
   }
 
   .prize-list .prize-item:first-child {

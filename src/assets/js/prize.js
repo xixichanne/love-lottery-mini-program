@@ -218,10 +218,11 @@ const bagList = [
 ]
 
 function selectPrize (list, n) {
+  let listTemp=[].concat(list);
   for (let i = 0; i < n; i++) {
-    let random = Math.floor(Math.random() * (list.length - 1))
-    list.pop(random)
-    prizeList.push(list[random])
+    let random = Math.floor(Math.random() * (listTemp.length - 1))
+    listTemp.pop(random)
+    prizeList.push(listTemp[random])
   }
 }
 function randomSort (a, b) {
@@ -235,6 +236,7 @@ function init(){
   selectPrize(skinCareList, 2)
   selectPrize(bagList, 1)
   prizeList.sort(randomSort)
+  console.log("here is prize："+prizeList)
   return prizeList;
 }
 

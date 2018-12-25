@@ -55,7 +55,7 @@ export default {
       start_rotating_degree: 0, // 初始旋转角度
       rotateAngle: 0, // 将要旋转的角度
       start_rotating_degree_pointer: 0, // 指针初始旋转角度
-      rotateAngle_pointer: 0, // 指针将要旋转的度数
+      // rotateAngle_pointer: 0, // 指针将要旋转的度数
       rotate_transition: 'transform 6s ease-in-out', // 初始化选中的过度属性控制
       rotate_transition_pointer: 'transform 12s ease-in-out', // 初始化指针过度属性控制
       click_flag: true, // 是否可以旋转抽奖
@@ -103,6 +103,7 @@ export default {
     // 此方法为处理奖品数据
     init_prize_list () {
       this.prize_list = prize.init()
+      console.log(this.prize_list)
     },
     rotate_handle () {
       this.rotating()
@@ -154,7 +155,7 @@ export default {
     width: 100%;
     height: 100%;
     background: rgb(255, 239, 199);
-    padding-top: 25px;
+    padding-top: 1vh;
   }
 
   .wheel {
@@ -166,26 +167,25 @@ export default {
     align-items: center;
     justify-content: center;
     position: relative;
-    height: 600px;
+    height: 86vh;
   }
 
   .title {
     position: absolute;
     z-index: 3;
     text-align: center;
-    top: 42px;
+    top: 8vh;
     font-size: 20px;
 
   }
 
   .wheel-bg {
-    width: 375px;
-    height: 375px;
+    width: 52vh;
+    height: 52vh;
     color: #fff;
     font-weight: 500;
     background: url("https://s1.ax1x.com/2018/12/20/FrQcG9.png") no-repeat center top;
-    background-size: 100%;
-    top: 7px;
+    background-size: cover;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -193,12 +193,13 @@ export default {
     align-content: center;
     transition: transform 3s ease;
     z-index: 2;
+    margin-top:2vh;
   }
 
   .wheel {
     position: absolute;
-    width: 100%;
-    height: 575px;
+    width: 90vw;
+    height: 78vh;
   }
 
   .wheel-pointer-box {
@@ -207,8 +208,8 @@ export default {
     left: 50%;
     z-index: 100;
     transform: translate(-50%, -60%);
-    width: 85px;
-    height: 85px;
+    /*width: 85px;*/
+    /*height: 85px;*/
   }
 
   .wheel-pointer {
@@ -225,7 +226,7 @@ export default {
     width: 100%;
     height: 100%;
     position: absolute;
-    top: 50px;
+    top: 7vh;
   }
 
   .prize-list .prize-item {
@@ -233,37 +234,37 @@ export default {
     top: 0px;
     left: 0;
     z-index: 2;
-    width: 30px;
+    width: 5vh;
     word-wrap:break-word
   }
 
   .prize-list .prize-item:first-child {
     top: 0px;
-    left: 177px;
+    left: 23vh;
     transform: rotate(0deg);
   }
 
   .prize-list .prize-item:nth-child(2) {
-    top: 5px;
-    left: 214px;
+    top: 1vh;
+    left: 28vh;
     transform: rotate(30deg);
   }
 
   .prize-list .prize-item:nth-child(3) {
-    top: 30px;
-    left: 240px;
+    top:4vh;
+    left:32vh;
     transform: rotate(60deg);
   }
 
   .prize-list .prize-item:nth-child(4) {
-    top: 65px;
-    left: 250px;
+    top:9vh;
+    left:33vh;
     transform: rotate(90deg);
   }
 
   .prize-list .prize-item:nth-child(5) {
-    top: 100px;
-    left: 240px;
+    top: 100px; //todo
+    left:32vh;
     transform: rotate(120deg);
   }
 
@@ -275,7 +276,7 @@ export default {
 
   .prize-list .prize-item:nth-child(7) {
     top: 130px;
-    left: 177px;
+    left: 23vh;
     transform: rotate(180deg);
   }
 
@@ -298,20 +299,19 @@ export default {
   }
 
   .prize-list .prize-item:nth-child(11) {
-    top: 30px;
+    top:4vh;
     left: 115px;
     transform: rotate(300deg);
   }
 
   .prize-list .prize-item:nth-child(12) {
-    top: 5px;
+    top: 1vh;
     left: 140px;
     transform: rotate(330deg);
   }
 
   .prize-item {
-    width: 94px;
-    height: 144px;
+    height:20vh;
   }
 
   .prize-pic img {
